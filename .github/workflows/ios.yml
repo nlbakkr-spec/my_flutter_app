@@ -1,10 +1,10 @@
-name: Build iOS Debug App
+name: Build iOS Release App
 on: 
-  workflow_dispatch: # Позволяет запускать сборку вручную кнопкой
+  workflow_dispatch: 
 
 jobs:
   build:
-    runs-on: macos-15 # Запускаем на чистом виртуальном Маке
+    runs-on: macos-15
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
@@ -12,7 +12,7 @@ jobs:
       - name: Set up Flutter
         uses: subosito/flutter-action@v2
         with:
-          flutter-version: '3.44.2' # Та самая версия, которая нужна твоему проекту
+          flutter-version: '3.44.2'
           channel: 'stable'
       
       - name: Recreate iOS folder
@@ -24,10 +24,10 @@ jobs:
         run: flutter pub get
           
       - name: Build iOS App (.app)
-        run: flutter build ios --debug --no-codesign
+        run: flutter build ios --release --no-codesign
           
       - name: Upload Artifact
         uses: actions/upload-artifact@v4
         with:
-          name: my-flutter-app-debug
+          name: my-flutter-app-release
           path: build/ios/iphoneos/*.app
